@@ -1,0 +1,52 @@
+---
+mongodb_packages: "python3 mongodb-org-3.6.17 numactl python3-devel python3-pip mongodb-org-shell-3.6.17"
+mongodb_pip_packages: "pymongo==3.6.1"
+mongodb_pymongo_from_pip: true
+  #mongodb_pymongo_from_pip_proxy: "http://{{ proxy.proxy_host }}:{{ proxy.proxy_port }}"
+
+mongodb_package_state: present
+mongodb_version: "3.6.17"
+mongodb_major_version: "3.6"
+mongodb_repo_source: /tmp/mongo_repo.tgz
+mongodb_repo_dest: /opt/repos/mongodb
+mongodb_pip_repo_source: /tmp/pip_mongo_repo.tgz
+mongodb_pip_repo_dest: /opt/repos/pip_mongodb
+
+mongodb_repository:
+  "3.6": "https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/3.6/$basearch/"
+
+
+mongodb_storage_dbpath: "/data/mongo"
+
+mongodb_net_bindip: 0.0.0.0
+
+# Mongo Credentials
+mongodb_user_admin_name: siteUserAdmin
+mongodb_user_admin_password: p@ssw0rd
+
+mongodb_root_admin_name: triangulum12
+mongodb_root_admin_password: sonofagun34
+
+mongodb_root_backup_name: backupuser
+mongodb_root_backup_password: p@ssw0rd
+
+mongodb_security_authorization: "enabled"
+mongodb_security_keyfile: "/data/mongo/keyfile"
+mongodb_replication_replset: "rs0"
+
+mongodb_set_parameters:
+  {
+    "enableLocalhostAuthBypass": "true",
+    "authenticationMechanisms": "SCRAM-SHA-1,MONGODB-CR",
+  }
+
+mongodb_devices: []
+  #  - name:       "mongodb data disk"
+  #    vgname:     "mongo"
+  #    lvname:     "data"
+  #    path:       "/dev/sdb"
+  #    partition:  "/dev/sdb1"
+  #    size:       "100%FREE"
+  #    mount_path: "/data"
+  #    mount_opts: "defaults,nofail"
+  #    fs:         "xfs"

@@ -1,0 +1,6 @@
+- hosts: vertica-nodes
+  roles:
+  - role: hugepage-disable
+    vars:
+      disable_transparent_hugepages: true
+

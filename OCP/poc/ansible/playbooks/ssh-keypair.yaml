@@ -1,0 +1,5 @@
+- hosts: vertica-nodes
+  roles:
+    - role: ssh-keypair
+      vars:
+        ssh_keypair_copy_private_key: true

@@ -1,0 +1,44 @@
+---
+## Configure OS DNS Settings
+dns:
+  enable: true
+  nameservers:
+    - 172.31.0.2
+  search:
+    - "us-west-2.compute.internal"
+
+## Set Timezone
+timezone:
+  enable: true
+  zone: "Canada/Central"
+
+## Configure Porxy settings
+proxy:
+  enable: false
+  proxy_host: ""
+  proxy_port: "80"
+  proxy_no_proxy: ""
+
+## Install / upgrade OS Packages
+packages:
+  enable: false
+
+  ## Configure YUM / APT
+  offline: false
+  update_cache: true
+
+  ## List of common packages to install
+  common_packages:
+    - net-tools
+    - lvm2
+      # - glibc-langpack-en # Centos 8 Locals package
+      #    - langpacks-en
+      
+## Disable or enalbe SELinux
+disable_selinux: true
+
+## Disable firewalld service
+disable_firewalld: true
+
+configure_sysctl:
+  enable: false

@@ -1,0 +1,21 @@
+---
+- hosts: mongo-nodes
+  become: true
+  tasks:
+
+    - debug:
+        var: groups['mongo-data']
+    - debug:
+        var: groups['mongo-arbiter']
+    - meta: end_play
+    - name: "Set mongodb_replication_params"
+      set_fact:
+        mongodb_replication_params: |
+          {% set cluster = [] %}
+          {% for host in groups['mongo-data'] %}
+          {%   set tmp_node = {"host_name": hostvars[host].ansible_host} %}
+          {%   set tmp = cluster.append(tmp_node) %}
+          {% endfor %}
+          {% set tmp_node = {"host_name": hostvars[groups["mongo-arbiter"][0]].ansible_host, "host_type": "arbiter"} %}
+          {% set tmp = cluster.append(tmp_node) %}
+          {{ (cluster) }}

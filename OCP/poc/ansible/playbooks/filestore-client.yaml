@@ -1,0 +1,5 @@
+---
+- hosts: mediation-nodes
+  roles:
+    - role: filestore-client
+      become: yes

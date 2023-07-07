@@ -1,0 +1,6 @@
+---
+#- hosts: mongo-data #mediation-nodes
+- hosts: mediation-nodes
+  become: false
+  roles:
+    - common

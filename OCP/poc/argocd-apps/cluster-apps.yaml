@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: chime
+  namespace: argocd
+spec:
+  destination:
+    namespace: argocd
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: OCP/poc/argocd-apps
+    repoURL: https://github.com/nomeswaran-v/chime-app-config
+    targetRevision: HEAD
+    helm:
+      values: |
+        # whitelist ips for source to all chime ingresses (the cluster is public):
+        ipWhitelist: "54.202.170.120/32 83.130.210.67/32 62.90.143.129/32 136.226.253.20/32 165.225.122.253/32 13.232.224.244/32 122.172.84.200/32 49.37.254.120/32 165.225.122.234/32 165.225.122.255/32 122.172.84.26/32 52.36.22.113/32 136.226.253.13/32"
+        ingressSuffix: "apps.rana.l9ri.p1.openshiftapps.com"
+        imagePullSecrets: "regcred"
+        timezone: "Europe/Paris"

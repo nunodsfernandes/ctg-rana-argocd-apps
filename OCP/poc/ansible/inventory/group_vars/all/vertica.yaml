@@ -1,0 +1,88 @@
+---
+##  ------------- SSH KEY PAIR ------------
+# Role: ssh-keypair
+#
+ssh_keypair_path: "~/.ssh/id_rsa_verticadb"
+ssh_keypair_size: 4096
+ssh_keypair_pub_manage_dir: true
+#ssh_keypair_pub_target_user: "{{ ansible_user_id }}"
+ssh_keypair_pub_target_user: "ec2-user"
+ssh_keypair_pub_target_group: "ec2-user"
+#ssh_keypair_pub_target_group: "{{ ansible_user_gid }}"
+
+# Keep empty to disable
+ssh_keypair_passphrase:
+
+
+## ------------------ VERTICA
+# Role: vertica
+
+bin_dir: "~"
+vertica_bin_dir: '/opt/vertica/bin'
+vertica_sbin_dir: '/opt/vertica/sbin'
+vertica_catalog_dir: '/data/vertica/catalog'
+vertica_data_dir: '/data/vertica/data'
+vertica_script_location: /opt/monasca
+vertica_config_dir: /opt/vertica/config
+vertica_dbadmin_home: /home/dbadmin
+vertica_ssh_key_location: /home/dbadmin/.ssh
+vertica_dbadmin_bashrc: /home/dbadmin/.bashrc
+
+vertica_ssh_key: "/home/{{ vertica_dbadmin_user }}/.ssh/{{ ssh_keypair_path | basename }}"
+vertica_ssh_password: ""
+
+vertica_database_name: "counters"
+vertica_schema_name: "sonpm"
+
+vertica_dbadmin_user: "dbadmin"
+vertica_dbadmin_group: verticadba
+vertica_dbadmin_password: "Ce11wi5e1!!"
+vertica_package_name: "vertica-9.3.0-0.x86_64.RHEL6.rpm"
+vertica_timezone: "{{ timezone.zone }}"
+vertica_package_location: vertica
+vertica_ips: "{% set IP_ARR=[] %}{% for host in groups['vertica-nodes'] %}{%  set tmp = IP_ARR.append(hostvars[host].ansible_default_ipv4.address) %}{% endfor %}{{ (IP_ARR | sort | join(',')) }}"
+skip_install: false
+vertica_use_apt: false
+
+vertica_dependencies:
+  - sysstat
+  - gdb
+  - dstat
+  - dialog
+  - mcelog
+  - sysstat
+  - libnsl
+
+
+vertica_logrotate_period: weekly
+vertica_logrotate_retention: 4
+vertica_logrotate_min_size: 500
+vertica_env:
+  LC_ALL: en_US.UTF-8
+  LANG: en_US.UTF-8
+
+monasca_wait_for_period: 90
+
+## ----------  SWAP -----------
+# Role: swapfile
+
+swap_file_path: /swapfile
+swap_file_size_mb: '2048'
+swap_swappiness: '1'
+swap_file_state: present
+swap_file_create_command: "sudo dd if=/dev/zero of={{ swap_file_path }} bs=1M count={{ swap_file_size_mb }}"
+swap_test_mode: false
+
+## ------- Volumes ------------
+# Role: disk-manager
+
+vertica_devices:
+  - name:       "vertica data disk"
+    vgname:     "vertica"
+    lvname:     "data"
+    path:       "/dev/sdb"
+    partition:  "/dev/sdb1"
+    size:       "100%FREE"
+    mount_path: "/data"
+    mount_opts: "defaults,nofail"
+    fs:         "xfs"

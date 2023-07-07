@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: chime
+  namespace: argocd
+spec:
+  destination:
+    namespace: argocd
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: OCP/poc/argocd-apps
+    repoURL: https://github.com/nomeswaran-v/chime-app-config
+    targetRevision: HEAD
+    helm:
+      values: |
+        ingressSuffix: "apps.cluster1.fc67.hpe"
+        imagePullSecrets: "regcred"
+        timezone: "Europe/Paris"

@@ -1,0 +1,44 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: activemq
+  namespace:  argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: chime
+    server: https://kubernetes.default.svc
+  project: default
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+  source:
+    chart: activemq
+    repoURL: https://cwops.jfrog.io/artifactory/api/helm/qcomm-helm
+    targetRevision: 0.1.7
+    helm:
+      parameters:
+        - name: ipWhitelist
+          value: "54.202.170.120/32 83.130.210.67/32 62.90.143.129/32 136.226.253.20/32 165.225.122.253/32 13.232.224.244/32 122.172.84.200/32 49.37.254.120/32 165.225.122.234/32 165.225.122.255/32 122.172.84.26/32 52.36.22.113/32 136.226.253.13/32"
+      values: |
+        localNodeTimezone: false
+        timezone: "Europe/Paris"
+        global:
+          imagePullSecrets:
+            - regcred
+        fullnameOverride: "activemq"
+        ingress:
+          hosts:
+            - amq.apps.cluster1.fc67.hpe
+          tls: [] # for openshift
+          annotations: 
+            route.openshift.io/termination: edge
+        resources:
+          limits:
+            cpu: 1
+            memory: 2Gi
+          requests:
+            cpu: 1
+            memory: 1Gi
+

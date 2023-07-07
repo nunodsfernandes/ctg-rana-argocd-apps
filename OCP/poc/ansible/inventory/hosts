@@ -1,0 +1,42 @@
+[deploy]
+local ansible_connection=local
+
+[mediation-nodes]
+#hpe-poc-mediation ansible_host=44.224.48.222
+
+[mediation-nodes:children]
+
+[mediation-nodes:vars]
+disk_device_name=mediation-data
+
+[mongo-nodes]
+#hpe-poc-mongodb-data-001  mongodb_master=true
+
+[mongo-nodes:vars]
+disk_device_name=mongo-data
+
+[mongo-data]
+hpe-poc-mongodb-data ansible_host=10.0.154.183 mongodb_master=true
+
+[mongo-data:children]
+
+[mongo-arbiter]
+
+[mongo-arbiter:children]
+
+[mongo-nodes:children]
+mongo-data
+mongo-arbiter
+
+[vertica-nodes]
+hpe-poc-db-vertica-001 ansible_host=10.0.176.42
+
+
+[vertica-nodes:children]
+
+[site]
+[site:children]
+vertica-nodes
+mongo-nodes
+mediation-nodes
+

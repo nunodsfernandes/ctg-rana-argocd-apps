@@ -1,0 +1,58 @@
+## ---- NFS Client
+
+nfs_packages:
+  - nfs-utils
+
+nfs_shares:
+  - mnt_path: /data
+    remote_path: "fs-00dd06b3ae1d7aaaf.efs.us-east-2.amazonaws.com:/data"
+    opts: 'auto,nofail,rw,noatime,nolock,intr,tcp'
+    fstype: nfs
+
+nfs_mount_opts: 'auto,nofail,ro,noatime,nolock,intr,tcp'
+
+## ---- NFS Server
+
+nfs_devices:
+  []
+  # NOTE: only needed in an on-prem situation
+
+  # - name:       "nfs data disk"
+  #   vgname:     "nfs"
+  #   lvname:     "data"
+  #   path:       "/dev/sdb"
+  #   partition:  "/dev/sdb1"
+  #   size:       "100%FREE"
+  #   mount_path: "/data"
+  #   mount_opts: "defaults,nofail"
+  #   fs:         "xfs"
+
+nfs_directories:
+  []
+  # - path: /data/raw_data
+  #   owner: 1000
+  #   mode: 0777
+
+  # - path: /data/chime
+  #   owner: 1000
+  #   mode: 0755
+
+  # - path: /data/scripts
+  #   owner: 1000
+  #   mode: 0755
+
+  # - path: /data/temp
+  #   owner: 1000
+  #   mode: 0755
+
+nfs_exports:
+  []
+  # - hostname: "*"
+  #   options:
+  #     - "rw"
+  #     - "insecure"
+  #     - "sync"
+  #     - "no_subtree_check"
+  #     - "no_root_squash"
+  #   mode: "u=rwx,g=rwx,o=rwx"
+  #   path: "/data"

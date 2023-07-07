@@ -1,0 +1,38 @@
+---
+#- hosts: mongo-nodes
+#  roles:
+#   - role: local_packager
+#     vars:
+#       packages: "{{ mongodb_packages }}"
+#       dest: "{{ mongodb_repo_source }}"
+#     connection: local
+#     tags:
+#       - local_packager
+
+
+- hosts: mongo-nodes
+  roles:
+
+    - role: common
+      become: yes
+ 
+
+        #- hosts: mongo-data
+        #  roles:
+        #    - role: disk-manager
+        #      vars:
+        #        devices: "{{ mongodb_devices }}"
+        #      become: yes
+
+- hosts: mongo-nodes
+  roles:
+    - role: remote_packager
+      become: yes
+      vars:
+        repo_source: "{{ mongodb_repo_source }}"
+        repo_dest: "{{ mongodb_repo_dest }}"
+
+    - role: mongodb
+      become: yes
+
+            

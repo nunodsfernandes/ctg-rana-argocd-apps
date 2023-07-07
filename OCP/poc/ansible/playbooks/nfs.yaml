@@ -1,0 +1,12 @@
+---
+- hosts: mediation-nodes
+  roles:
+    - role: disk-manager
+      vars:
+        devices: "{{ nfs_devices }}"
+      become: yes
+
+- hosts: mediation-nodes
+  roles:
+    - role: nfs
+      become: yes

@@ -1,0 +1,9 @@
+- hosts: local
+  roles:
+   - role: local_packager
+     vars:
+       packages: "{{ mongodb_packages }}"
+       dest: "{{ mongodb_repo_source }}"
+     connection: local
+     tags:
+       - local_packager

@@ -1,0 +1,25 @@
+---
+- hosts: vertica-nodes
+  roles:
+
+    - role: common
+
+    - role: ssh-keypair
+      vars:
+        ssh_keypair_copy_private_key: true
+
+    - role: swapfile
+
+      #    - role: disk-manager
+      #      vars:
+      #        devices: "{{ vertica_devices }}"
+      #      become: yes
+
+    - role: hugepage-disable
+      vars:
+        disable_transparent_hugepages: true
+
+    - role: vertica
+      become: yes
+
+            
