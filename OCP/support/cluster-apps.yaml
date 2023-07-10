@@ -1,19 +1,19 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: chime
-  namespace: argocd
+  name: chime99
+  namespace: argocd99
 spec:
   destination:
-    namespace: argocd
+    namespace: argocd99
     server: https://kubernetes.default.svc
   project: default
   source:
     path: OCP/support
-    repoURL: https://github.hpe.com/cms-support/RANA-Chime-App-Config
+    repoURL: https://github.com/nunodsfernandes/ctg-rana-argocd-apps
     targetRevision: HEAD
     helm:
       values: |
-        ingressSuffix: "apps.ocp4ranasupport.c4lab.local"
+        ingressSuffix: "apps.rana.l9ri.p1.openshiftapps.com"
         imagePullSecrets: "regcred"
         timezone: "Europe/Paris"
