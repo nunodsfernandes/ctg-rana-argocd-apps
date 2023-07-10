@@ -3,12 +3,12 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: chime-optimizer
-  namespace: argocd
+  namespace: argocd99
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
-    namespace: chime
+    namespace: chime99
     server: https://kubernetes.default.svc
   project: default
   syncPolicy:
@@ -50,7 +50,7 @@ spec:
 
           createMongoDbSecret: true
           mongoSecretName: "cw-mongo"
-          mongoHosts: "172.16.245.85:27017"
+          mongoHosts: "10.0.168.163:27017"
           # Change to primary due to policy-studio
           mongoAuthenticationDatabase: "admin"
           mongoUserName: "rana-chime"
@@ -62,10 +62,10 @@ spec:
 
           createVerticaDbSecret: true
           verticaSecretName: "cw-vertica"
-          verticaHost: "172.16.245.86:5433"
-          verticaBackupHost: "172.16.245.86:5433"
-          verticaMoHost: "172.16.245.86:5433"
-          verticaMoBackupHost: "172.16.245.86:5433"
+          verticaHost: "10.0.232.143:5433"
+          verticaBackupHost: "10.0.232.143:5433"
+          verticaMoHost: "10.0.232.143:5433"
+          verticaMoBackupHost: "10.0.232.143:5433"
           verticaUserName: "dbadmin"
           verticaHashPassword: "aAgBzKix72jR2axQvDloDw=="
           verticaSchema: "sonpm"
@@ -75,10 +75,10 @@ spec:
 
           createMysqlDbSecret: true
           mysqlSecretName: "cw-mysql"
-          mysqlHost: "mysql.mysql"
+          mysqlHost: "saas-cellwize-db.czyginzkctfg.us-east-2.rds.amazonaws.com"
           mysqlUserName: "admin"
-          mysqlHashPass: "yW4jHzk2MhLR2axQvDloDw=="
-          mysqlDbName: "son"
+          mysqlHashPass: "kirNE26kXPUqmNpMMhGHMA=="
+          mysqlDbName: "saas-cellwize-db"
           mysqlUrlSuffix: "&serverTimezone=Europe/Paris&useSSL=false"
 
           createActivemqDbSecret: true
@@ -174,9 +174,9 @@ spec:
             
             
             #MySQL
-            spring.datasource.url=jdbc:mysql://cellwize-db.czyginzkctfg.us-east-2.rds.amazonaws.com:3306/son?rewriteBatchedStatements=true
-            spring.datasource.username=triangulum12
-            spring.datasource.password=q55gF5bqwkNZsKU3A87pJw==
+            spring.datasource.url=jdbc:mysql://saas-cellwize-db.czyginzkctfg.us-east-2.rds.amazonaws.com:3306/son?rewriteBatchedStatements=true
+            spring.datasource.username=admin
+            spring.datasource.password=kirNE26kXPUqmNpMMhGHMA==
           
         task-trigger-service:
           enabled: true
@@ -190,7 +190,7 @@ spec:
           properties: |
         
             # need to configure mongo connectivity
-            db.main.mongo.hosts=172.16.245.85:27017
+            db.main.mongo.hosts=10.0.168.163:27017
             db.main.mongo.username=rana-chime
             db.main.mongo.password=E55UkRdKFg3qk80paER7LQ==
             db.main.mongo.name=chimemng
